@@ -1,0 +1,18 @@
+SINGAPORE — Producing hydrogen gas, filtering waste water, and producing clean energy can be achieved at improved levels of efficiency through the same technology: A titanium dioxide nanofibre (or nanoparticle).
+
+This patented nanofibre was developed by a team of scientists led by Associate Professor Darren Sun of the School of Civil and Environmental Engineering at Nanyang Technological University.
+
+A new type of membrane is created by blending titanium dioxide with a polymer and pulling the resultant mixture into fine strands of under 100 nanometres, which form an irregular mesh.
+
+Titanium dioxide displays photocatalytic properties: Shining ultraviolent or visible light on it causes it to act as a catalyst to split hydrogen gas from waste water. The resulting oxidation process also kills bacteria. Titanium dioxide can be used to create flexible solar cells and give lithium-ion batteries an improved capacity and lifespan.
+
+The latest results of Assoc Prof Sun’s research were published in the journals Water Research, Energy And Environmental Science, and Journal Of Materials Chemistry.
+
+The low cost and abundance of titanium dioxide could revamp current methods of harvesting clean water and energy, Assoc Prof Sun said. “Is it possible to have one material with different applications when the material structure is modified? ... If we can do this, it’s like killing two birds or even more with just one stone.”
+
+Ultrafiltration membranes that contain titanium dioxide nanofibres are less likely to get clogged by organic pollutants, due to its anti-bacterial properties. The nanofibres also improve the flow rate of water through forward-osmosis membranes used during desalination. This membrane, when placed in between waste water and brine from desalination, can create high water pressure to generate hydroelectric power.
+
+All these features of titanium dioxide make it a promising material in water filtration, desalination and reclamation, hydrogen gas production, energy production and even antibacterial medical bandages.
+
+“There is a wide variety of pollutants: small molecules, large molecules, polymers and bacteria,” said Assoc Prof Sun. “The challenge for us is to make our titanium dioxide nanofibre membrane handle everything.”
+
