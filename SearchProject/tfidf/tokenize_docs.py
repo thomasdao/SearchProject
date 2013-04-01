@@ -11,23 +11,47 @@ from tfidf.models import Document, TermFrequency, DocFrequency
 from nltk.probability import FreqDist
 from django.db.models import Count
 import math
+from nltk.stem.wordnet import WordNetLemmatizer
 
-def get_freq_dist(data):
+# Return dict contains lemmatized term
+# Key is the term, value is number of times it appear in doc
+wordnet = WordNetLemmatizer()
+
+def get_term_freq_dict(data):
     # Change it to lower case
     lower_data = data.lower()
     
     # Tokenize it
     tokens = word_tokenize(lower_data)
     freq_dist = FreqDist(tokens)
-    return freq_dist
+    
+    # Lemmatize it
+    word_freq = {}
+    
+    for term in freq_dist.keys():
+        lemmatize_term = wordnet.lemmatize(term)
+        val = freq_dist.get(term)
+        
+        # If it exist in word_freq, add value
+        if lemmatize_term in word_freq:
+            freq = word_freq[lemmatize_term]
+            word_freq[lemmatize_term] = freq + val
+            
+        # Else, assign value
+        else:
+            word_freq[lemmatize_term] = val
+    
+    
+    return word_freq
 
 def process_data(data):
-    freq_dist = get_freq_dist(data)
+    freq_dist = get_term_freq_dict(data)
     
     # Insert into db
     # Save document
     doc = Document(content=data)
     doc.save()
+    print "processing doc %d %s" % (doc.id, data[:10])
     
     # Save term frequency
     terms = []
@@ -42,7 +66,6 @@ def process_data(data):
         term.document = doc
         term.score = 0
         terms.append(term)
-        print term.term + "-" + str(term.frequency)
         
     # Save to DB
     TermFrequency.objects.bulk_create(terms)
@@ -55,6 +78,7 @@ def tokenize_docs():
     # Else, process files
     # Get list of files inside docs
     files = listdir("docs")
+    files.sort()
     print files
     
     # Read content of files
@@ -99,3 +123,4 @@ if __name__ == '__main__':
     tokenize_docs()
     calculate_docs_frequency()
     calculate_tfidf()
+    print "Done!"
