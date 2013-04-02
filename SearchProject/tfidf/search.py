@@ -7,6 +7,7 @@ Created on Mar 23, 2013
 from django.db import connection
 from tokenize_docs import get_term_freq_dict
 from tfidf.models import Document
+import math
 
 def process_query(data):
     # Return term
@@ -23,10 +24,10 @@ def is_all_terms_matched(doc_terms, terms):
 
 def rank(query):
     # Filter when term is inside searched query string
-    terms = process_query(query)
+    # terms = process_query(query)
+    terms = query.split()
+    terms = [str(x.lower()) for x in terms]
     
-    # Prepare to run SQL raw query
-    cursor = connection.cursor()
     
     # Well potentially SQL Injection here
     if len(terms) > 1:
@@ -49,17 +50,43 @@ def rank(query):
     
     print raw_sql
     
+    # Prepare to run SQL raw query
+    cursor = connection.cursor()
     cursor.execute(raw_sql)
 
-    row = cursor.fetchall()
+    rows = cursor.fetchall()
     
-    print row
+    print rows
     
-    docs = [x for x in row if is_all_terms_matched(x[1], terms)]
+    doc_ids = [x[0] for x in rows if is_all_terms_matched(x[1], terms)]
     
-    for x in docs:
-        print x
+    # Retrieve document
+    docs = Document.objects.filter(id__in=doc_ids)
+    for i in xrange(len(docs)):
+        doc = docs[i]
+        doc.score = math.ceil(rows[i][2]*100)/100 
+    return docs
     
+
+def search_term(term):
+    print term
+    
+    raw_sql = '''
+    SELECT term
+    FROM tfidf_docfrequency
+    WHERE term LIKE \'''' + term + '''%%'
+    ORDER BY num_docs DESC
+    LIMIT 10
+    '''
+    print raw_sql
+    
+    # Prepare to run SQL raw query
+    cursor = connection.cursor()
+    cursor.execute(raw_sql)
+
+    rows = cursor.fetchall()
+    suggested_terms = [x[0] for x in rows]
+    return suggested_terms
 
 # Execute
 if __name__ == '__main__':
