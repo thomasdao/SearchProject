@@ -11,6 +11,8 @@ def index(request):
     return render(request, 'tfidf/home.html', context)
 
 def term_autocomplete(request):
-    term = request.GET.get('term')
+    term = request.GET.get('query')
     suggested_terms = search_term(term)
-    return HttpResponse(json.dumps(suggested_terms))
+    result = {}
+    result['suggestions'] = suggested_terms
+    return HttpResponse(json.dumps(result))

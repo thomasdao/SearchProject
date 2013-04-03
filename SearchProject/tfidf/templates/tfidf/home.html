@@ -2,29 +2,41 @@
 <html>
     <head>
         <title>Search Project</title>
-        <link href="/static/typeahead.js-bootstrap.css" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-        
+
         <style>
             body {
                 padding: 10px;
             }
             input[type="text"] {
-               height: 30px;
+                height: 30px;
             }
 
             .highlight {
                 background-color: yellow;
                 font-weight: bold;
             }
+            
+            .header {
+                margin: 0 auto;
+                width: 700px;
+                text-align: center;
+            }
+            
+            #search-box {
+                width: 500px;
+            }
         </style>
     </head>
     <body>
-        <h1>Search Here Baby!</h1>
-        <form class="form-search">
-            <input id="search-box" type="text" name="query" value="{{ query }}" class="input-xlarge search-query"/>
-            <input type="submit" value="Search" class="btn btn-success inline"/>
-        </form>
+        <div class="header">
+            <h1>Search Here Baby!</h1>
+            <form class="form-search">
+                <input id="search-box" type="text" name="query" value="{{ query }}" class="search-query" placeholder="Search query..."/>
+                <input type="submit" value="Search" class="btn btn-success inline"/>
+            </form>
+        </div>
 
         {% if docs %}
         <ul class="content">
@@ -41,23 +53,22 @@
     </body>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="/static/jquery.highlight-4.closure.js"></script>
-    <script src="/static/typeahead.min.js"></script>
+    <script src="/static/jquery.autocomplete.min.js"></script>
     <script>
         $(document).ready(function() {
             var query = '{{query}}';
-            
+
             var terms = query.split(" ");
-            console.log(terms);
-            for (var i=0; i < terms.length; i++) {
-              $('.content').highlight(terms[i]);
+            $('.content').highlight(query);
+            for (var i = 0; i < terms.length; i++) {
+                $('.content').highlight(terms[i]);
             };
-            
-            /*
-            $('#search-box').typeahead({
-                name: 'term',
-                remote: "{% url 'autocomplete' %}" + "?term=%QUERY"
+
+            $('#search-box').autocomplete({
+                serviceUrl : '/search/term/autocomplete',
+                delimiter : " "
             });
-            */
+
         });
     </script>
 
